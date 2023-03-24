@@ -1,4 +1,5 @@
 import Feed from "./components/Feed";
+import Rightside from "./components/Rightside";
 import { Box, Heading } from "@chakra-ui/react";
 import "./App.css";
 
@@ -6,7 +7,7 @@ function App() {
   return (
     <Box
       display="flex"
-      gap={4}
+      gap={6}
       className="App"
       w={{ base: "full", lg: "90%" }}
       margin="1rem auto"
@@ -19,6 +20,7 @@ function App() {
         w="40%"
         display={{ base: "none", md: "block" }}
       >
+        <Rightside />
         <Heading>Right componenet here</Heading>
       </Box>
     </Box>
