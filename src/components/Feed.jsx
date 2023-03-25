@@ -7,6 +7,7 @@ import Post from "./Post";
 import { AuthContext } from "../context/AuthContext";
 import NoPosts from "./NoPosts";
 import { useParams } from "react-router-dom";
+import Rightside from "./Rightside";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -39,6 +40,9 @@ const Feed = () => {
   return (
     <Box>
       {(!username || username === loggedInUser.username) && <Share />}
+      <Box display={{ md: "none" }}>
+        <Rightside />
+      </Box>
       {postsCount ? (
         posts.map((post, index) => <Post key={index} post={post} />)
       ) : (

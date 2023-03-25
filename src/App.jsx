@@ -1,6 +1,6 @@
 import Feed from "./components/Feed";
 import Rightside from "./components/Rightside";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import "./App.css";
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
         display={{ base: "none", md: "block" }}
       >
         <Rightside />
-        <Heading>Right componenet here</Heading>
       </Box>
     </Box>
   );
