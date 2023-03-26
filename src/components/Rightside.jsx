@@ -17,6 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import RecentUserCard from "./RecentUserCard";
 import axios from "axios";
+import { prefix } from "../apiconfig";
 
 const Rightside = () => {
   const [fiveMostrecent, setFiveMostRecent] = useState([]);
@@ -30,7 +31,7 @@ const Rightside = () => {
   useEffect(() => {
     const mostRecent = async () => {
       try {
-        const res = await axios.get("http://localhost:4100/users/mostrecent");
+        const res = await axios.get(`${prefix}users/mostrecent`);
         setRecent(res.data);
       } catch (err) {
         console.log(err);
@@ -38,9 +39,7 @@ const Rightside = () => {
     };
     const fetchFiveMostRecent = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:4100/users/fiveMostrecent"
-        );
+        const res = await axios.get(`${prefix}users/fiveMostrecent`);
         setFiveMostRecent(res.data);
       } catch (err) {
         console.log(err);
