@@ -49,8 +49,13 @@ const Rightside = () => {
     mostRecent();
   }, []);
   return (
-    <Card p={4} textAlign="left">
-      <Heading mb={4}>MOST RECENT USER</Heading>
+    <Card p={{ base: "0", md: "16px" }} textAlign="left">
+      <Heading
+        mb={{ base: "0px", md: "16px" }}
+        p={{ base: "16px 16px 0px", md: "0px" }}
+      >
+        MOST RECENT USER
+      </Heading>
       <RecentUserCard fiveRecent={fiveMostrecent} />
       <Button
         colorScheme="blue"

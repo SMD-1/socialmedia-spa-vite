@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Box } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Text,
+} from "@chakra-ui/react";
 import { prefix } from "../apiconfig";
 import Share from "./Share";
 import Post from "./Post";
@@ -8,6 +15,7 @@ import { AuthContext } from "../context/AuthContext";
 import NoPosts from "./NoPosts";
 import { useParams } from "react-router-dom";
 import Rightside from "./Rightside";
+import { AiFillCaretDown } from "react-icons/ai";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -38,10 +46,30 @@ const Feed = () => {
     }
   }, [loggedInUser, username]);
   return (
-    <Box>
+    <Box p={3}>
       {(!username || username === loggedInUser.username) && <Share />}
-      <Box display={{ md: "none" }}>
-        <Rightside />
+      <Box
+        display={{ md: "none" }}
+        mt={4}
+        boxShadow="md"
+        bg="gray.100"
+        rounded="md"
+      >
+        <Accordion allowToggle>
+          <AccordionItem>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                <Text fontSize="20px" fontWeight="bold">
+                  All Users
+                </Text>
+              </Box>
+              <AiFillCaretDown />
+            </AccordionButton>
+            <AccordionPanel pb={4}>
+              <Rightside />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </Box>
       {postsCount ? (
         posts.map((post, index) => <Post key={index} post={post} />)
