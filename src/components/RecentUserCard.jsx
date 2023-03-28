@@ -30,6 +30,9 @@ const RecentUserCard = ({ fiveRecent }) => {
                 display="flex"
                 alignItems="center"
                 flexDir={{ base: "row", md: "column" }}
+                _hover={{
+                  bg: "gray.100",
+                }}
               >
                 <Avatar />
                 <Stack

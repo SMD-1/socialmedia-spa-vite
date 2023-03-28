@@ -139,7 +139,13 @@ const ProfileSidebar = ({ user }) => {
             </Box>
           </Flex>
 
-          <Flex gap="15px" ml="30px" justifyContent="left" mb="20px">
+          <Flex
+            gap="15px"
+            justifyContent={{ base: "center", md: "left" }}
+            mt="10px"
+            ml={{ base: "0", md: "30px" }}
+            mb="10px"
+          >
             {username !== currentUser.username
               ? user.username !== currentUser.username && (
                   <>
