@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import {
   Avatar,
@@ -23,8 +23,18 @@ const Share = () => {
   const username = user?.username;
   const id = user?._id;
 
-  const description = useRef();
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+    if (event.target.value.trim() === "") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -32,7 +42,7 @@ const Share = () => {
     formData.append("file", file);
     formData.append("name", file?.name);
     formData.append("userId", id);
-    formData.append("description", description.current.value);
+    formData.append("description", description);
     try {
       const res = await axios.post(`${prefix}posts`, formData);
       window.location.reload();
@@ -59,7 +69,8 @@ const Share = () => {
           ml={4}
           bg="gray.200"
           placeholder={`What's on your mind ${username}`}
-          ref={description}
+          value={description}
+          onChange={handleDescriptionChange}
         />
       </Box>
       <Divider />
@@ -154,7 +165,12 @@ const Share = () => {
               <Input style={{ display: "none" }} name="emoji" id="emoji" />
             </FormLabel>
           </Button>
-          <Button colorScheme="messenger" p="8px 24px" type="submit">
+          <Button
+            colorScheme="messenger"
+            p="8px 24px"
+            type="submit"
+            isDisabled={isDisabled}
+          >
             Share
           </Button>
         </Flex>
