@@ -1,16 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import App from "./App.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Profile from "./pages/Profile.jsx";
 import "./index.css";
+
+const RootLayout = () => {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <App /> },
+      { path: "/profile", element: <Profile /> },
+    ],
   },
   {
     path: "/login",
