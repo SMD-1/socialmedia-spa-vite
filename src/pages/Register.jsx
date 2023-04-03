@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   Input,
   Box,
@@ -10,6 +10,11 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
+import { prefix } from "../apiconfig";
+import { loginCall } from "../apiCall";
 
 const Register = () => {
   const username = useRef();
@@ -17,15 +22,73 @@ const Register = () => {
   const password = useRef();
   const passwordAgain = useRef();
 
-  //   const navigate = useNavigate();
+  const { user, isFetching, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
-  const registerHandler = () => {
+  const registerHandler = async () => {
     console.log(
       username.current.value,
       email.current.value,
       password.current.value,
       passwordAgain.current.value
     );
+    if (passwordAgain.current.value !== password.current.value) {
+      return toast("Password and Confirm password doesn't match", {
+        position: "top-right",
+        type: "warning",
+        theme: "dark",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      const user = {
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value,
+      };
+      try {
+        const newUser = await axios.post(prefix + "auth/register", user);
+        console.log(newUser);
+        loginCall(
+          {
+            email: email.current.value,
+            password: password.current.value,
+          },
+          dispatch
+        );
+        toast("Registered Successfully!", {
+          position: "top-right",
+          type: "success",
+          theme: "dark",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } catch (err) {
+        // yahan ayega error aur hoga toastify
+        toast(err.message, {
+          position: "top-right",
+          type: "error",
+          theme: "dark",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        // console.log(err.message);
+      }
+    }
   };
 
   const [show, setShow] = useState(false);
@@ -102,7 +165,7 @@ const Register = () => {
           pr="4.5rem"
           variant="outline"
           type={show ? "text" : "password"}
-          placeholder="Enter your password *"
+          placeholder="Confirm password *"
           ref={passwordAgain}
         />
         <InputRightElement width="4.5rem">
@@ -111,7 +174,7 @@ const Register = () => {
           </Button>
         </InputRightElement>
       </InputGroup>
-      {/* login button */}
+      {/* register button */}
       <Button
         w={{ base: "90%", sm: "70%", md: "400px" }}
         mt="40px"
@@ -119,10 +182,11 @@ const Register = () => {
         border="2px solid rgba(255, 255, 255, 0.1)"
         colorScheme={"blue"}
         onClick={registerHandler}
+        isDisabled={isFetching}
       >
-        LOGIN
+        Register
       </Button>
-      {/* Don't have an account */}
+      {/* Already have an account */}
       <Flex
         justifyContent="center"
         w={{ base: "90%", sm: "70%", md: "400px" }}
@@ -132,7 +196,7 @@ const Register = () => {
         <Box>Already have an account?</Box>
         <Link to="/login">
           <Button colorScheme="blue" ml={2} variant="ghost">
-            Signup
+            Login
           </Button>
         </Link>
       </Flex>

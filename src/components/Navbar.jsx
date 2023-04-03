@@ -19,7 +19,7 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 
-const Links = ["Dashboard", "Projects", "Team"];
+const Links = ["Home", "Feed", "About"];
 
 const NavLink = ({ children }) => (
   <Link

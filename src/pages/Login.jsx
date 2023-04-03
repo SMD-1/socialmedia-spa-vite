@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import {
   Input,
   Box,
@@ -9,16 +9,34 @@ import {
   Button,
   Center,
 } from "@chakra-ui/react";
+import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { loginCall } from "../apiCall";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const email = useRef();
   const password = useRef();
 
-  //   const navigate = useNavigate();
+  const { user, dispatch, isFetching } = useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const loginHandler = () => {
-    console.log(email.current.value, password.current.value);
+    loginCall(
+      { email: email.current.value, password: password.current.value },
+      dispatch
+    );
+    if (password.length > 6) {
+      console.log("length", password.length);
+    }
+    if (password.current.value.length > 6) {
+      console.log("current value", password.current.value.length);
+    }
   };
 
   const [show, setShow] = useState(false);
@@ -48,6 +66,7 @@ const Login = () => {
         mt={"40px"}
         outline={"none"}
         borderColor={"gray.400"}
+        required
         ref={email}
       />
       {/* password */}
@@ -63,6 +82,8 @@ const Login = () => {
           variant="outline"
           type={show ? "text" : "password"}
           placeholder="Enter your password *"
+          minLength="6"
+          required
           ref={password}
         />
         <InputRightElement width="4.5rem">
@@ -79,8 +100,9 @@ const Login = () => {
         border="2px solid rgba(255, 255, 255, 0.1)"
         colorScheme={"blue"}
         onClick={loginHandler}
+        isDisabled={isFetching}
       >
-        LOGIN
+        {isFetching ? "Loading..." : "Login"}
       </Button>
       {/* Don't have an account */}
       <Flex
@@ -92,7 +114,7 @@ const Login = () => {
         <Box>Don't Have an Account?</Box>
         <Link to="/register">
           <Button colorScheme="blue" ml={2} variant="ghost">
-            Signup for free
+            Signup
           </Button>
         </Link>
       </Flex>
