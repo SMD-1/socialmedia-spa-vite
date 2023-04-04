@@ -1,10 +1,8 @@
-import { ReactNode } from "react";
 import {
   Box,
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -15,22 +13,27 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Heading,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
+import { TbLogout } from "react-icons/tb";
 
 const Links = ["Home", "Feed", "About"];
 
-const NavLink = ({ children }) => (
+const NavLink = ({ children, endPoint }) => (
   <Link
-    px={2}
+    px={4}
     py={1}
     rounded={"md"}
     _hover={{
       textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
-    href={"#"}
+    to={endPoint == "home" ? "/" : `/${endPoint}`}
   >
     {children}
   </Link>
@@ -38,6 +41,7 @@ const NavLink = ({ children }) => (
 
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <Box
@@ -57,9 +61,9 @@ export default function Simple() {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems={"center"}>
-          <Box fontWeight="bold" fontSize="18px" mr={{ base: "0", md: "20px" }}>
-            {"<Assignment />"}
-          </Box>
+          <Heading fontSize="25px" mr={{ base: "0", md: "20px" }}>
+            LOGO
+          </Heading>
           <HStack
             as={"nav"}
             spacing={4}
@@ -67,9 +71,19 @@ export default function Simple() {
             display={{ base: "none", md: "flex" }}
           >
             {Links.map((link) => (
-              <NavLink key={link} endPoint={link.toLowerCase()}>
-                {link}
-              </NavLink>
+              <Button
+                variant="ghost"
+                colorScheme="gray"
+                px={2}
+                rounded="none"
+                _hover={{
+                  // bg: useColorModeValue("gray.200", "gray.700"),
+                  borderBottom: "2px solid red",
+                }}
+                key={link}
+              >
+                <NavLink endPoint={link.toLowerCase()}>{link}</NavLink>
+              </Button>
             ))}
           </HStack>
         </HStack>
@@ -84,15 +98,27 @@ export default function Simple() {
               mr={2}
               // onClick={isModalOpen ? onModalClose : onModalOpen}
             >
-              {/* {!user && !user.data.user.photoURL ? ( */}
-              <Avatar
-                size="sm"
-                src="https://ik.imagekit.io/1place/Notes/user_nWSGLM3AGj.png?ik-sdk-version=javascript-1.4.3&updatedAt=1677957308998"
-              />
-              {/* ) : (
-                  <Avatar size={"md"} src={user.data.user.photoURL} />
-                )} */}
+              {user && user.profilePicture ? (
+                <Avatar
+                  size="sm"
+                  src="https://ik.imagekit.io/1place/Notes/user_nWSGLM3AGj.png?ik-sdk-version=javascript-1.4.3&updatedAt=1677957308998"
+                />
+              ) : (
+                <Avatar size={"md"} src={user.profilePicture} />
+              )}
             </MenuButton>
+            <MenuList>
+              <Link to="/profile">
+                <MenuItem>Profile</MenuItem>
+              </Link>
+              <MenuDivider />
+              <Link to="/login">
+                <MenuItem onClick={logout}>
+                  Signout
+                  <TbLogout size="20px" style={{ marginLeft: "auto" }} />
+                </MenuItem>
+              </Link>
+            </MenuList>
             {/* <ThemeToggler /> */}
           </Menu>
         </Flex>
@@ -111,7 +137,9 @@ export default function Simple() {
           <Stack as={"nav"} spacing={4}>
             {Links.map((link) => (
               <NavLink key={link} endPoint={link.toLocaleLowerCase()}>
-                {link}
+                <Box _hover={{ bg: "gray.200" }} p={1}>
+                  {link}
+                </Box>
               </NavLink>
             ))}
           </Stack>

@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from "react";
+import { toast } from "react-toastify";
 import AuthReducer from "./AuthReducer.jsx";
 
 const initialState = {
@@ -16,6 +17,16 @@ export const AuthContextProvider = ({ children }) => {
   }, [state.user]);
   const logout = () => {
     dispatch({ type: "LOGOUT" });
+    toast("Logged out Successfully!", {
+      position: "top-right",
+      type: "success",
+      theme: "dark",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
   return (
     <AuthContext.Provider
