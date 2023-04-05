@@ -99,12 +99,9 @@ export default function Simple() {
               // onClick={isModalOpen ? onModalClose : onModalOpen}
             >
               {user && user.profilePicture ? (
-                <Avatar
-                  size="sm"
-                  src="https://ik.imagekit.io/1place/Notes/user_nWSGLM3AGj.png?ik-sdk-version=javascript-1.4.3&updatedAt=1677957308998"
-                />
-              ) : (
                 <Avatar size={"md"} src={user.profilePicture} />
+              ) : (
+                <Avatar size="md" />
               )}
             </MenuButton>
             <MenuList>
