@@ -5,14 +5,19 @@ import { prefix } from "../apiconfig";
 import Share from "./Share";
 import Post from "./Post";
 import { AuthContext } from "../context/AuthContext";
+import NoPosts from "./NoPosts";
 
-const Feed = () => {
+const Feed = ({ username }) => {
   const [posts, setPosts] = useState([]);
+  const [postsCount, setpostsCount] = useState(0);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await axios.get(prefix + "posts/timeline/" + user._id);
+      const res = username
+        ? await axios.get(prefix + "posts/profile/" + username)
+        : await axios.get(prefix + "posts/timeline/" + user._id);
+      setpostsCount(res.data.length);
       setPosts(
         res.data.sort((post1, post2) => {
           return new Date(post2.createdAt) - new Date(post1.createdAt);
@@ -24,9 +29,11 @@ const Feed = () => {
   return (
     <Box>
       <Share />
-      {posts.map((post, index) => (
-        <Post key={index} post={post} />
-      ))}
+      {postsCount ? (
+        posts.map((post, index) => <Post key={index} post={post} />)
+      ) : (
+        <NoPosts />
+      )}
     </Box>
   );
 };
