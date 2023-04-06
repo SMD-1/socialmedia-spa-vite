@@ -84,7 +84,12 @@ const Share = () => {
       )}
       {/* Bottom */}
       <form onSubmit={submitHandler}>
-        <Flex gap={4} alignItems="center" justifyContent="space-between">
+        <Flex
+          gap={4}
+          alignItems="center"
+          flexWrap="wrap"
+          justifyContent="space-between"
+        >
           <Button p="8px" display="flex" variant="outline">
             <FormLabel
               display="flex"

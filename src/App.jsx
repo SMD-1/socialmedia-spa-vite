@@ -10,18 +10,16 @@ function App() {
       display="flex"
       gap={4}
       className="App"
-      // border="2px solid red"
       w={{ base: "full", lg: "90%" }}
       margin="1rem auto"
     >
       <Box w={{ base: "full", lg: "60%" }}>
-        <Share />
         <Feed />
       </Box>
       <Box
         border="2px solid #000"
         w="40%"
-        display={{ base: "none", lg: "block" }}
+        display={{ base: "none", md: "block" }}
       >
         <Heading>Right componenet here</Heading>
       </Box>
