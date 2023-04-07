@@ -37,7 +37,7 @@ const Post = ({ post }) => {
     <Box
       display="flex"
       flexDir="column"
-      m="10px auto"
+      m="15px auto"
       p="20px"
       rounded="10px"
       style={{
@@ -95,6 +95,7 @@ const Post = ({ post }) => {
         ) : (
           ``
         )}
+        <Divider border="1px solid gray" />
       </Box>
       {/* bottom */}
       <Flex w="90%" m="5px auto" justifyContent="space-between">

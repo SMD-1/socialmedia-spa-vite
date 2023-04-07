@@ -17,7 +17,7 @@ function App() {
         <Feed />
       </Box>
       <Box
-        border="2px solid #000"
+        // border="2px solid #000"
         w="40%"
         display={{ base: "none", md: "block" }}
       >

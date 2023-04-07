@@ -105,13 +105,13 @@ export default function Simple() {
               )}
             </MenuButton>
             <MenuList>
-              <Link to="/profile">
+              <Link to={`/profile/${user.username}`}>
                 <MenuItem>Profile</MenuItem>
               </Link>
               <MenuDivider />
               <Link to="/login">
                 <MenuItem onClick={logout}>
-                  Signout
+                  Logout
                   <TbLogout size="20px" style={{ marginLeft: "auto" }} />
                 </MenuItem>
               </Link>
