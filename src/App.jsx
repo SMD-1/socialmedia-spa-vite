@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import Share from "./components/Share";
 import Feed from "./components/Feed";
 import { Box, Heading } from "@chakra-ui/react";
 import "./App.css";

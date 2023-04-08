@@ -28,7 +28,7 @@ const Feed = ({ username }) => {
   }, [user._id]);
   return (
     <Box>
-      <Share />
+      {(!username || username === user.username) && <Share />}
       {postsCount ? (
         posts.map((post, index) => <Post key={index} post={post} />)
       ) : (
