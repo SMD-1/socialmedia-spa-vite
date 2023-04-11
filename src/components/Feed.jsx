@@ -6,17 +6,20 @@ import Share from "./Share";
 import Post from "./Post";
 import { AuthContext } from "../context/AuthContext";
 import NoPosts from "./NoPosts";
+import { useParams } from "react-router-dom";
 
-const Feed = ({ username }) => {
+const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [postsCount, setpostsCount] = useState(0);
-  const { user } = useContext(AuthContext);
+  const { user: loggedInUser } = useContext(AuthContext);
+  const { _id: id } = loggedInUser;
+  const username = useParams().username;
 
   useEffect(() => {
     const fetchPost = async () => {
       const res = username
         ? await axios.get(prefix + "posts/profile/" + username)
-        : await axios.get(prefix + "posts/timeline/" + user._id);
+        : await axios.get(prefix + "posts/timeline/" + id);
       setpostsCount(res.data.length);
       setPosts(
         res.data.sort((post1, post2) => {
@@ -25,10 +28,10 @@ const Feed = ({ username }) => {
       );
     };
     fetchPost();
-  }, [user._id]);
+  }, [id, username]);
   return (
     <Box>
-      {(!username || username === user.username) && <Share />}
+      {(!username || username === loggedInUser.username) && <Share />}
       {postsCount ? (
         posts.map((post, index) => <Post key={index} post={post} />)
       ) : (
