@@ -12,7 +12,9 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [postsCount, setpostsCount] = useState(0);
   const { user: loggedInUser } = useContext(AuthContext);
+  // console.log(loggedInUser);
   const { _id: id } = loggedInUser;
+  // console.log(id);
   const username = useParams().username;
 
   useEffect(() => {
