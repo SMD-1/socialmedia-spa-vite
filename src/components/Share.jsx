@@ -19,9 +19,9 @@ import axios from "axios";
 
 const Share = () => {
   const { user } = useContext(AuthContext);
-  const profilePicture = user.profilePicture;
-  const username = user.username;
-  const id = user._id;
+  const profilePicture = user?.profilePicture;
+  const username = user?.username;
+  const id = user?._id;
 
   const description = useRef();
   const [file, setFile] = useState(null);

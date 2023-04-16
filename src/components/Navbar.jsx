@@ -105,7 +105,7 @@ export default function Simple() {
               )}
             </MenuButton>
             <MenuList>
-              <Link to={`/profile/${user.username}`}>
+              <Link to={`/profile/${user?.username}`}>
                 <MenuItem>Profile</MenuItem>
               </Link>
               <MenuDivider />

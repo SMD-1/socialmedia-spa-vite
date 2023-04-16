@@ -13,7 +13,10 @@ const Feed = () => {
   const [postsCount, setpostsCount] = useState(0);
   const { user: loggedInUser } = useContext(AuthContext);
   // console.log(loggedInUser);
-  const { _id: id } = loggedInUser;
+  if (loggedInUser && loggedInUser._id) {
+    const { _id } = loggedInUser;
+    console.log(_id);
+  }
   // console.log(id);
   const username = useParams().username;
 
@@ -21,7 +24,7 @@ const Feed = () => {
     const fetchPost = async () => {
       const res = username
         ? await axios.get(prefix + "posts/profile/" + username)
-        : await axios.get(prefix + "posts/timeline/" + id);
+        : await axios.get(prefix + "posts/timeline/" + loggedInUser._id);
       setpostsCount(res.data.length);
       setPosts(
         res.data.sort((post1, post2) => {
@@ -29,8 +32,10 @@ const Feed = () => {
         })
       );
     };
-    fetchPost();
-  }, [id, username]);
+    if (loggedInUser?._id) {
+      fetchPost();
+    }
+  }, [loggedInUser, username]);
   return (
     <Box>
       {(!username || username === loggedInUser.username) && <Share />}
