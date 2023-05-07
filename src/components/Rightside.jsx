@@ -68,7 +68,7 @@ const Rightside = () => {
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Most Recent User</ModalHeader>
+            <ModalHeader>All Users</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               {recent.map((user) => {
