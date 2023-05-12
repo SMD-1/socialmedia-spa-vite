@@ -22,13 +22,16 @@ import { useNavigate } from "react-router-dom";
 import { IoIosShareAlt, IoMdShareAlt } from "react-icons/io";
 import { SlOptionsVertical } from "react-icons/sl";
 import { BiEdit } from "react-icons/bi";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 
 const ProfileSidebar = ({ user }) => {
   const [friends, setFriends] = useState([]);
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
   const { username } = user;
+  const [following, setFollowing] = useState(
+    currentUser.followings.includes(user?._id)
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +48,25 @@ const ProfileSidebar = ({ user }) => {
     };
     if (user.followings?.length > 0) getFriends();
   }, [user]);
+
+  const clickHandler = async () => {
+    try {
+      if (following) {
+        await axios.put(`${prefix}users/${user._id}/unfollow`, {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "UNFOLLOW", payload: user._id });
+      } else {
+        await axios.put(`${prefix}users/${user._id}/follow`, {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "FOLLOW", payload: user._id });
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+    setFollowing(!following);
+  };
   return (
     <Flex flexDir="column">
       {/* user info */}
@@ -154,16 +176,14 @@ const ProfileSidebar = ({ user }) => {
                     </Button>
                     <Button
                       className="rightBarFollowButton"
-                      // onClick={clickHandler}
-                      rightIcon={<FaPlus />}
+                      onClick={clickHandler}
                     >
-                      Follow
-                      {/* {following ? "Unfollow" : "Follow"}
+                      {following ? "Unfollow" : "Follow"}
                       {following ? (
                         <FaMinus style={{ marginLeft: "5px" }} />
                       ) : (
                         <FaPlus style={{ marginLeft: "5px" }} />
-                      )} */}
+                      )}
                     </Button>
                   </>
                 )

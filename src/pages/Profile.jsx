@@ -1,5 +1,5 @@
 import { Box, Heading } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { prefix } from "../apiconfig";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(`${prefix}users?username=${username}`);
-      // console.log(res.data);
+      // console.log("from profile", res.data);
       setUser(res.data);
     };
     fetchUser();
