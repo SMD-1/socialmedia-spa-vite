@@ -16,12 +16,16 @@ import { AuthContextProvider } from "./context/AuthContext.jsx";
 import { ToastContainer } from "react-toastify";
 import { AuthContext } from "./context/AuthContext.jsx";
 import "./index.css";
+import CompleteSignup from "./components/CompleteSignup.jsx";
 
 export const RootLayout = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   useEffect(() => {
     if (!user) navigate("/login");
+    if (!user?.fullName) {
+      navigate("/complete-signup");
+    }
   }, [user]);
   return (
     <>
@@ -46,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/complete-signup",
+    element: <CompleteSignup />,
   },
 ]);
 
