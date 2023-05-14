@@ -8,13 +8,13 @@ import {
   InputRightElement,
   Button,
   Center,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
-import { prefix } from "../apiconfig";
-import { loginCall } from "../apiCall";
+import { registerCall } from "../apiCall";
 
 const Register = () => {
   const username = useRef();
@@ -31,12 +31,6 @@ const Register = () => {
   }, [user]);
 
   const registerHandler = async () => {
-    console.log(
-      username.current.value,
-      email.current.value,
-      password.current.value,
-      passwordAgain.current.value
-    );
     if (passwordAgain.current.value !== password.current.value) {
       return toast("Password and Confirm password doesn't match", {
         position: "top-right",
@@ -49,45 +43,14 @@ const Register = () => {
         draggable: true,
       });
     } else {
-      const user = {
-        username: username.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      };
-      try {
-        const newUser = await axios.post(prefix + "auth/register", user);
-        console.log(newUser);
-        loginCall(
-          {
-            email: email.current.value,
-            password: password.current.value,
-          },
-          dispatch
-        );
-        toast("Registered Successfully!", {
-          position: "top-right",
-          type: "success",
-          theme: "dark",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      } catch (err) {
-        // yahan ayega error aur hoga toastify
-        toast(err.message, {
-          position: "top-right",
-          type: "error",
-          theme: "dark",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        // console.log(err.message);
-      }
+      registerCall(
+        {
+          username: username.current.value,
+          email: email.current.value,
+          password: password.current.value,
+        },
+        dispatch
+      );
     }
   };
 
@@ -109,71 +72,93 @@ const Register = () => {
         <Center letterSpacing="1px">Create Your Account</Center>
       </Box>
       {/* username */}
-      <Input
-        placeholder="Enter your username *"
-        size="lg"
-        type={"text"}
-        variant="outline"
+      <FormControl
         w={{ base: "90%", sm: "70%", md: "400px" }}
         mt={"40px"}
-        outline={"none"}
-        borderColor={"gray.400"}
-        ref={username}
-      />
+        isRequired
+      >
+        <FormLabel fontWeight="bold">Username : </FormLabel>
+        <Input
+          placeholder="Enter your username *"
+          size="lg"
+          type={"text"}
+          variant="outline"
+          outline={"none"}
+          borderColor={"gray.400"}
+          ref={username}
+        />
+      </FormControl>
       {/* email */}
-      <Input
-        placeholder="Enter your email *"
-        size="lg"
-        type={"email"}
-        variant="outline"
+      <FormControl
         w={{ base: "90%", sm: "70%", md: "400px" }}
         mt={"20px"}
-        outline={"none"}
-        borderColor={"gray.400"}
-        ref={email}
-      />
+        isRequired
+      >
+        <FormLabel fontWeight="bold">Email : </FormLabel>
+        <Input
+          placeholder="Enter your email *"
+          size="lg"
+          type={"email"}
+          variant="outline"
+          outline={"none"}
+          borderColor={"gray.400"}
+          ref={email}
+        />
+      </FormControl>
       {/* password */}
-      <InputGroup
-        size="lg"
+      <FormControl
         w={{ base: "90%", sm: "70%", md: "400px" }}
-        borderColor={"gray.400"}
         mt={"20px"}
+        isRequired
       >
-        <Input
-          outline={"none"}
-          pr="4.5rem"
-          variant="outline"
-          type={show ? "text" : "password"}
-          placeholder="Enter your password *"
-          ref={password}
-        />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
-          </Button>
-        </InputRightElement>
-      </InputGroup>
+        <FormLabel fontWeight="bold">Password : </FormLabel>
+        <InputGroup
+          size="lg"
+          w={{ base: "90%", sm: "70%", md: "400px" }}
+          borderColor={"gray.400"}
+        >
+          <Input
+            outline={"none"}
+            pr="4.5rem"
+            variant="outline"
+            type={show ? "text" : "password"}
+            placeholder="Enter your password *"
+            ref={password}
+          />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={handleClick}>
+              {show ? "Hide" : "Show"}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
+      </FormControl>
       {/* password Again */}
-      <InputGroup
-        size="lg"
+      <FormControl
         w={{ base: "90%", sm: "70%", md: "400px" }}
-        borderColor={"gray.400"}
         mt={"20px"}
+        isRequired
       >
-        <Input
-          outline={"none"}
-          pr="4.5rem"
-          variant="outline"
-          type={show ? "text" : "password"}
-          placeholder="Confirm password *"
-          ref={passwordAgain}
-        />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
-          </Button>
-        </InputRightElement>
-      </InputGroup>
+        <FormLabel fontWeight="bold">Password Again : </FormLabel>
+        <InputGroup
+          size="lg"
+          w={{ base: "90%", sm: "70%", md: "400px" }}
+          borderColor={"gray.400"}
+        >
+          <Input
+            outline={"none"}
+            pr="4.5rem"
+            variant="outline"
+            type={show ? "text" : "password"}
+            placeholder="Confirm password *"
+            ref={passwordAgain}
+          />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={handleClick}>
+              {show ? "Hide" : "Show"}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
+      </FormControl>
       {/* register button */}
       <Button
         w={{ base: "90%", sm: "70%", md: "400px" }}

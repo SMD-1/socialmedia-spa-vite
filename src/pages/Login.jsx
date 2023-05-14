@@ -8,6 +8,8 @@ import {
   InputRightElement,
   Button,
   Center,
+  FormLabel,
+  FormControl,
 } from "@chakra-ui/react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -57,41 +59,49 @@ const Login = () => {
         <Center letterSpacing="1px">Login into Account</Center>
       </Box>
       {/* email */}
-      <Input
-        placeholder="Enter your email *"
-        size="lg"
-        type={"email"}
-        variant="outline"
+      <FormControl
         w={{ base: "90%", sm: "70%", md: "400px" }}
         mt={"40px"}
-        outline={"none"}
-        borderColor={"gray.400"}
-        required
-        ref={email}
-      />
-      {/* password */}
-      <InputGroup
-        size="lg"
-        w={{ base: "90%", sm: "70%", md: "400px" }}
-        borderColor={"gray.400"}
-        mt={"20px"}
+        isRequired
       >
+        <FormLabel fontWeight="bold">Email :</FormLabel>
         <Input
-          outline={"none"}
-          pr="4.5rem"
+          placeholder="Enter your email *"
+          size="lg"
+          type={"email"}
           variant="outline"
-          type={show ? "text" : "password"}
-          placeholder="Enter your password *"
-          minLength="6"
+          outline={"none"}
+          borderColor={"gray.400"}
           required
-          ref={password}
+          ref={email}
         />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
-          </Button>
-        </InputRightElement>
-      </InputGroup>
+      </FormControl>
+
+      {/* password */}
+      <FormControl
+        w={{ base: "90%", sm: "70%", md: "400px" }}
+        mt="20px"
+        isRequired
+      >
+        <FormLabel fontWeight="bold">Password :</FormLabel>
+        <InputGroup size="lg" borderColor={"gray.400"}>
+          <Input
+            outline={"none"}
+            pr="4.5rem"
+            variant="outline"
+            type={show ? "text" : "password"}
+            placeholder="Enter your password *"
+            minLength="6"
+            required
+            ref={password}
+          />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={handleClick}>
+              {show ? "Hide" : "Show"}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
+      </FormControl>
       {/* login button */}
       <Button
         w={{ base: "90%", sm: "70%", md: "400px" }}
