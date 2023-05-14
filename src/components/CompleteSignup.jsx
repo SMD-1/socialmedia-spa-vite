@@ -49,7 +49,7 @@ const CompleteSignup = () => {
   return (
     <Box>
       <Navbar />
-      <Heading>One step away</Heading>
+      <Heading mt={{ base: "100px", md: "60px" }}>One step away</Heading>
       <Text size="sm">Complete your sign-up</Text>
       <form
         style={{
@@ -63,7 +63,7 @@ const CompleteSignup = () => {
           mt={"40px"}
           isRequired
         >
-          <FormLabel>Full Name:</FormLabel>
+          <FormLabel fontWeight="bold">Full Name:</FormLabel>
           <Input
             onChange={fullNameChangeHandler}
             placeholder="Enter your FullName"
@@ -77,7 +77,7 @@ const CompleteSignup = () => {
           />
         </FormControl>
         <FormControl w={{ base: "90%", sm: "70%", md: "400px" }} mt={"20px"}>
-          <FormLabel>City:</FormLabel>
+          <FormLabel fontWeight="bold">City:</FormLabel>
           <Input
             onChange={(e) => setCity(e.target.value)}
             placeholder="Where are you from?"

@@ -15,6 +15,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { loginCall } from "../apiCall";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const email = useRef();
@@ -29,6 +30,22 @@ const Login = () => {
   }, [user]);
 
   const loginHandler = () => {
+    if (
+      email.current.value.trim() === "" ||
+      password.current.value.trim() === ""
+    ) {
+      toast("Please Enter credentials", {
+        position: "top-right",
+        type: "warning",
+        theme: "dark",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
     loginCall(
       { email: email.current.value, password: password.current.value },
       dispatch

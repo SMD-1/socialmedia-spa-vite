@@ -31,6 +31,24 @@ const Register = () => {
   }, [user]);
 
   const registerHandler = async () => {
+    if (
+      username.current.value.trim() === "" ||
+      email.current.value.trim() === "" ||
+      password.current.value.trim() === "" ||
+      passwordAgain.current.value.trim() === ""
+    ) {
+      toast("Please fill required details", {
+        position: "top-right",
+        type: "warning",
+        theme: "dark",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
     if (passwordAgain.current.value !== password.current.value) {
       return toast("Password and Confirm password doesn't match", {
         position: "top-right",
